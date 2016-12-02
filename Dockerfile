@@ -1,12 +1,69 @@
-FROM bitriseio/docker-bitrise-base-alpha:latest
+FROM ubuntu:16.04
 
 ENV ANDROID_HOME /opt/android-sdk-linux
 ENV ANDROID_NDK_HOME /opt/android-sdk-linux/ndk-bundle
 
 # ------------------------------------------------------
+# --- Environments and base directories
+
+# Environments
+# - Language
+RUN locale-gen en_US.UTF-8
+ENV LANG "en_US.UTF-8"
+ENV LANGUAGE "en_US.UTF-8"
+ENV LC_ALL "en_US.UTF-8"
+# - CI
+ENV CI "true"
+# - main dirs
+ENV SOURCE_DIR "/nerdiex/src"
+ENV BRIDGE_WORKDIR "/nerdiex/src"
+ENV DEPLOY_DIR "/nerdiex/deploy"
+ENV CACHE_DIR "/nerdiex/cache"
+
+# create base dirs
+RUN mkdir -p /nerdiex/src
+RUN mkdir -p /nerdiex/deploy
+RUN mkdir -p /nerdiex/cache
+
+# prep dir
+RUN mkdir -p /nerdiex/prep
+WORKDIR /nerdiex/prep
+
+
+# ------------------------------------------------------
+# --- Base pre-installed tools
+RUN apt-get update -qq
+# Requiered for Bitrise CLI
+RUN DEBIAN_FRONTEND=noninteractive apt-get -y install git mercurial curl wget rsync sudo expect
+# Common, useful
+RUN DEBIAN_FRONTEND=noninteractive apt-get -y install python
+RUN DEBIAN_FRONTEND=noninteractive apt-get -y install build-essential
+RUN DEBIAN_FRONTEND=noninteractive apt-get -y install unzip
+RUN DEBIAN_FRONTEND=noninteractive apt-get -y install zip
+RUN DEBIAN_FRONTEND=noninteractive apt-get -y install tree
+# For PPAs
+RUN DEBIAN_FRONTEND=noninteractive apt-get install -y software-properties-common
+
+
+# ------------------------------------------------------
+# --- Pre-installed but not through apt-get
+
+# install Ruby from source
+#  from source: mainly because of GEM native extensions,
+#  this is the most reliable way to use Ruby no Ubuntu if GEM native extensions are required
+RUN DEBIAN_FRONTEND=noninteractive apt-get -y install build-essential zlib1g-dev libssl-dev libreadline6-dev libyaml-dev
+RUN wget -q http://cache.ruby-lang.org/pub/ruby/ruby-2.2.4.tar.gz
+RUN tar -xvzf ruby-2.2.4.tar.gz
+RUN cd ruby-2.2.4 && ./configure --prefix=/usr/local && make && make install
+# cleanup
+RUN rm -rf ruby-2.2.4
+RUN rm ruby-2.2.4.tar.gz
+
+RUN gem install bundler --no-document
+
+# ------------------------------------------------------
 # --- Install required tools
 
-RUN apt-get update -qq
 
 # Base (non android specific) tools
 # -> should be added to bitriseio/docker-bitrise-base
