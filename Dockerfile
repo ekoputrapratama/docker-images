@@ -196,8 +196,6 @@ RUN sed -i -- 's/\"disable_usage_reporting\": false/\"disable_usage_reporting\":
 # ------------------------------------------------------
 # --- Cleanup and rev num
 
-# Cleaning
-RUN apt-get clean
 
 # ------------------------------------------------------
 # --- Android NDK
