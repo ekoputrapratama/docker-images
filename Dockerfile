@@ -1,7 +1,7 @@
-FROM ubuntu:16.10
+FROM bitriseio/docker-bitrise-base-alpha:latest
 
 ENV ANDROID_HOME /opt/android-sdk-linux
-ENV ANDROID_NDK_HOME /opt/android-ndk
+ENV ANDROID_NDK_HOME /opt/android-sdk-linux/ndk-bundle
 
 # ------------------------------------------------------
 # --- Install required tools
@@ -12,10 +12,10 @@ RUN apt-get update -qq
 # -> should be added to bitriseio/docker-bitrise-base
 
 # Dependencies to execute Android builds
-#RUN dpkg --add-architecture i386
-#RUN apt-get update -qq
-#RUN DEBIAN_FRONTEND=noninteractive apt-get install -y openjdk-8-jdk libc6:i386 libstdc++6:i386 libgcc1:i386 libncurses5:i386 libz1:i386
-RUN apt-get install -y openjdk-8-jdk wget expect
+RUN dpkg --add-architecture i386
+RUN apt-get update -qq
+RUN DEBIAN_FRONTEND=noninteractive apt-get install -y openjdk-8-jdk libc6:i386 libstdc++6:i386 libgcc1:i386 libncurses5:i386 libz1:i386
+
 
 # ------------------------------------------------------
 # --- Download Android SDK tools into $ANDROID_HOME
@@ -25,7 +25,6 @@ RUN cd /opt && tar -xvzf android-sdk.tgz
 RUN cd /opt && rm -f android-sdk.tgz
 
 ENV PATH ${PATH}:${ANDROID_HOME}/tools:${ANDROID_HOME}/platform-tools
-
 
 # ------------------------------------------------------
 # --- Install Android SDKs and other build packages
@@ -45,85 +44,103 @@ RUN echo y | android update sdk --no-ui --all --filter extra-android-support | g
 RUN echo y | android update sdk --no-ui --all --filter android-25 | grep 'package installed'
 RUN echo y | android update sdk --no-ui --all --filter android-24 | grep 'package installed'
 RUN echo y | android update sdk --no-ui --all --filter android-23 | grep 'package installed'
-RUN echo y | android update sdk --no-ui --all --filter android-18 | grep 'package installed'
-RUN echo y | android update sdk --no-ui --all --filter android-16 | grep 'package installed'
+RUN echo y | android update sdk --no-ui --all --filter android-22 | grep 'package installed'
+RUN echo y | android update sdk --no-ui --all --filter android-21 | grep 'package installed'
+RUN echo y | android update sdk --no-ui --all --filter android-20 | grep 'package installed'
+RUN echo y | android update sdk --no-ui --all --filter android-19 | grep 'package installed'
+RUN echo y | android update sdk --no-ui --all --filter android-17 | grep 'package installed'
+RUN echo y | android update sdk --no-ui --all --filter android-15 | grep 'package installed'
+RUN echo y | android update sdk --no-ui --all --filter android-10 | grep 'package installed'
 
 # build tools
 # Please keep these in descending order!
+RUN echo y | android update sdk --no-ui --all --filter build-tools-25.0.1 | grep 'package installed'
 RUN echo y | android update sdk --no-ui --all --filter build-tools-25.0.0 | grep 'package installed'
 RUN echo y | android update sdk --no-ui --all --filter build-tools-24.0.3 | grep 'package installed'
 RUN echo y | android update sdk --no-ui --all --filter build-tools-24.0.2 | grep 'package installed'
 RUN echo y | android update sdk --no-ui --all --filter build-tools-24.0.1 | grep 'package installed'
+RUN echo y | android update sdk --no-ui --all --filter build-tools-24.0.0 | grep 'package installed'
 RUN echo y | android update sdk --no-ui --all --filter build-tools-23.0.3 | grep 'package installed'
 RUN echo y | android update sdk --no-ui --all --filter build-tools-23.0.2 | grep 'package installed'
 RUN echo y | android update sdk --no-ui --all --filter build-tools-23.0.1 | grep 'package installed'
+RUN echo y | android update sdk --no-ui --all --filter build-tools-22.0.1 | grep 'package installed'
+RUN echo y | android update sdk --no-ui --all --filter build-tools-21.1.2 | grep 'package installed'
+RUN echo y | android update sdk --no-ui --all --filter build-tools-20.0.0 | grep 'package installed'
+RUN echo y | android update sdk --no-ui --all --filter build-tools-19.1.0 | grep 'package installed'
+RUN echo y | android update sdk --no-ui --all --filter build-tools-17.0.0 | grep 'package installed'
 
 # Android System Images, for emulators
 # Please keep these in descending order!
-#RUN echo y | android update sdk --no-ui --all --filter sys-img-x86_64-android-25 | grep 'package installed'
-#RUN echo y | android update sdk --no-ui --all --filter sys-img-x86-android-25 | grep 'package installed'
-#RUN echo y | android update sdk --no-ui --all --filter sys-img-armeabi-v7a-android-25 | grep 'package installed'
-
-#RUN echo y | android update sdk --no-ui --all --filter sys-img-x86_64-android-24 | grep 'package installed'
-#RUN echo y | android update sdk --no-ui --all --filter sys-img-x86-android-24 | grep 'package installed'
 RUN echo y | android update sdk --no-ui --all --filter sys-img-armeabi-v7a-android-24 | grep 'package installed'
-
-#RUN echo y | android update sdk --no-ui --all --filter sys-img-x86-android-23 | grep 'package installed'
-#RUN echo y | android update sdk --no-ui --all --filter sys-img-armeabi-v7a-android-23 | grep 'package installed'
+#RUN echo y | android update sdk --no-ui --all --filter sys-img-armeabi-v7a-android-22 | grep 'package installed'
+#RUN echo y | android update sdk --no-ui --all --filter sys-img-armeabi-v7a-android-21 | grep 'package installed'
+#RUN echo y | android update sdk --no-ui --all --filter sys-img-armeabi-v7a-android-19 | grep 'package installed'
+#RUN echo y | android update sdk --no-ui --all --filter sys-img-armeabi-v7a-android-17 | grep 'package installed'
+#RUN echo y | android update sdk --no-ui --all --filter sys-img-armeabi-v7a-android-15 | grep 'package installed'
 
 # Extras
 RUN echo y | android update sdk --no-ui --all --filter extra-android-m2repository | grep 'package installed'
 RUN echo y | android update sdk --no-ui --all --filter extra-google-m2repository | grep 'package installed'
 RUN echo y | android update sdk --no-ui --all --filter extra-google-google_play_services | grep 'package installed'
 
-# install those?
-
-# build-tools-21.0.0
-#build-tools-21.0.1
-#build-tools-21.0.2
-#build-tools-21.1.0
-#build-tools-21.1.1
-#build-tools-21.1.2
-#build-tools-22.0.0
-#build-tools-22.0.1
-#build-tools-23.0.0
-#build-tools-23.0.1
-#build-tools-23.0.2
-#build-tools-23.0.3
-#build-tools-24.0.0
-#build-tools-24.0.1
-#build-tools-24.0.2
-#android-21
-#android-22
-#android-23
-#android-24
-#addon-google_apis-google-24
-#addon-google_apis-google-23
-#addon-google_apis-google-22
-#addon-google_apis-google-21
-#extra-android-support
-#extra-android-m2repository
-#extra-google-m2repository
-#extra-google-google_play_services
-#sys-img-arm64-v8a-android-24
-#sys-img-armeabi-v7a-android-24
-#sys-img-x86_64-android-24
-#sys-img-x86-android-24
-
 # google apis
 # Please keep these in descending order!
-#RUN echo y | android update sdk --no-ui --all --filter addon-google_apis-google-23 | grep 'package installed'
+RUN echo y | android update sdk --no-ui --all --filter addon-google_apis-google-23 | grep 'package installed'
+RUN echo y | android update sdk --no-ui --all --filter addon-google_apis-google-22 | grep 'package installed'
+RUN echo y | android update sdk --no-ui --all --filter addon-google_apis-google-21 | grep 'package installed'
 
-# Copy install tools
-COPY tools /opt/tools
 
-#Copy accepted android licenses
-COPY licenses/android-sdk-license ${ANDROID_HOME}
-COPY licenses/android-sdk-preview-license ${ANDROID_HOME}
+# ------------------------------------------------------
+# --- Install Gradle from PPA
 
-ENV PATH ${PATH}:/opt/tools
-# Update SDK
-RUN /opt/tools/android-accept-licenses.sh android update sdk --no-ui --obsolete --force
+# Gradle PPA
+RUN apt-get update
+RUN apt-get -y install gradle
+RUN gradle -v
+
+# ------------------------------------------------------
+# --- Install Maven 3 from PPA
+
+RUN apt-get purge maven maven2
+RUN apt-get update
+RUN apt-get -y install maven
+RUN mvn --version
+
+# ------------------------------------------------------
+# --- Install Fastlane
+
+RUN gem install fastlane --no-document
+RUN fastlane --version
+
+# ------------------------------------------------------
+# --- Install Google Cloud SDK
+# https://cloud.google.com/sdk/downloads
+#  Section: apt-get (Debian and Ubuntu only)
+#
+# E.g. for "Using Firebase Test Lab for Android from the gcloud Command Line":
+#  https://firebase.google.com/docs/test-lab/command-line
+#
+
+RUN echo "deb https://packages.cloud.google.com/apt cloud-sdk-`lsb_release -c -s` main" | sudo tee -a /etc/apt/sources.list.d/google-cloud-sdk.list
+RUN curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
+RUN sudo apt-get update -qq
+RUN sudo apt-get install -y -qq google-cloud-sdk
+
+ENV GCLOUD_SDK_CONFIG /usr/lib/google-cloud-sdk/lib/googlecloudsdk/core/config.json
+
+# gcloud config doesn't update config.json. See the official Dockerfile for details:
+#  https://github.com/GoogleCloudPlatform/cloud-sdk-docker/blob/master/Dockerfile
+RUN /usr/bin/gcloud config set --installation component_manager/disable_update_check true
+RUN sed -i -- 's/\"disable_updater\": false/\"disable_updater\": true/g' $GCLOUD_SDK_CONFIG
+
+RUN /usr/bin/gcloud config set --installation core/disable_usage_reporting true
+RUN sed -i -- 's/\"disable_usage_reporting\": false/\"disable_usage_reporting\": true/g' $GCLOUD_SDK_CONFIG
+
+# ------------------------------------------------------
+# --- Cleanup and rev num
+
+# Cleaning
+RUN apt-get clean
 
 # ------------------------------------------------------
 # --- Android NDK
@@ -157,6 +174,7 @@ RUN rm -rf /opt/android-cmake-tmp
 ENV PATH ${PATH}:${ANDROID_HOME}/cmake/bin
 
 RUN apt-get clean
-
+ENV BITRISE_DOCKER_REV_NUMBER_ANDROID v2016_11_23_1
+CMD bitrise -version
 RUN chown -R 1000:1000 $ANDROID_HOME
 VOLUME ["/opt/android-sdk-linux"]
