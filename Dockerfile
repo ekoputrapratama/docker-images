@@ -1,7 +1,6 @@
 FROM ubuntu:16.04
 
-ENV ANDROID_HOME /opt/android-sdk-linux
-ENV ANDROID_NDK_HOME /opt/android-sdk-linux/ndk-bundle
+
 
 # ------------------------------------------------------
 # --- Environments and base directories
@@ -12,6 +11,9 @@ RUN locale-gen en_US.UTF-8
 ENV LANG "en_US.UTF-8"
 ENV LANGUAGE "en_US.UTF-8"
 ENV LC_ALL "en_US.UTF-8"
+
+ENV ANDROID_HOME /opt/android-sdk-linux
+ENV ANDROID_NDK_HOME /opt/android-sdk-linux/ndk-bundle
 # - CI
 ENV CI "true"
 # - main dirs
@@ -70,7 +72,7 @@ RUN gem install bundler --no-document
 
 # Dependencies to execute Android builds
 RUN dpkg --add-architecture i386
-RUN apt-get update -qq
+RUN apt-get update
 RUN DEBIAN_FRONTEND=noninteractive apt-get install -y openjdk-8-jdk libc6:i386 libstdc++6:i386 libgcc1:i386 libncurses5:i386 libz1:i386
 
 
@@ -180,7 +182,7 @@ RUN fastlane --version
 
 RUN echo "deb https://packages.cloud.google.com/apt cloud-sdk-`lsb_release -c -s` main" | sudo tee -a /etc/apt/sources.list.d/google-cloud-sdk.list
 RUN curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
-RUN sudo apt-get update -qq
+RUN sudo apt-get update
 RUN sudo apt-get install -y -qq google-cloud-sdk
 
 ENV GCLOUD_SDK_CONFIG /usr/lib/google-cloud-sdk/lib/googlecloudsdk/core/config.json
@@ -229,7 +231,6 @@ RUN rm -rf /opt/android-cmake-tmp
 ENV PATH ${PATH}:${ANDROID_HOME}/cmake/bin
 
 RUN apt-get clean
-ENV BITRISE_DOCKER_REV_NUMBER_ANDROID v2016_11_23_1
-CMD bitrise -version
+
 RUN chown -R 1000:1000 $ANDROID_HOME
 VOLUME ["/opt/android-sdk-linux"]
