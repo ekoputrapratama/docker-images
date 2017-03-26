@@ -1,2 +1,2 @@
 # docker-images
-Docker images for Contnues Integraation build
+Docker images for Continues Integration and Cloud IDE Development Stack.
