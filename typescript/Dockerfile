@@ -1,6 +1,20 @@
-FROM node:7.1.0-alpine
+FROM ubuntu:16.04
+MAINTAINER Muhammad Sayuti "muhammad.sayuti94@gmail.com"
 
-RUN apk add --no-cache --virtual .persistent-deps \
+ENV DEBIAN_FRONTEND noninteractive
+
+RUN apt-get update
+RUN apt-get -qq update
+RUN apt-get install -y nodejs npm unzip zip golang git
+ENV GOPATH /usr/local/opt/go
+ENV PATH ${GOPATH}:${GOPATH}/bin:${PATH}
+RUN go get github.com/prasmussen/gdrive
+# TODO could uninstall some build dependencies
+
+# fucking debian installs `node` as `nodejs`
+RUN update-alternatives --install /usr/bin/node node /usr/bin/nodejs 10
+
+RUN apt-get install -y \
         curl \
         openssl \
         # for node-sass module
@@ -21,8 +35,7 @@ RUN apk add --no-cache --virtual .persistent-deps \
         webpack \
         tslint
 # Set up the application directory
-VOLUME ["/app"]
-WORKDIR /app
-
+VOLUME ["/projects"]
+WORKDIR /projects
 CMD ["npm", "-v"]
 CMD tail -f /dev/null
