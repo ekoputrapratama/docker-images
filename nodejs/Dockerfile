@@ -8,6 +8,7 @@ ENV DEBIAN_FRONTEND noninteractive
 RUN apt-get update
 RUN apt-get -qq update
 RUN apt-get install -y nodejs npm unzip zip golang git
+RUN npm install -g bower
 ENV GOPATH /usr/local/opt/go
 ENV PATH ${GOPATH}:${GOPATH}/bin:${PATH}
 RUN go get github.com/prasmussen/gdrive
