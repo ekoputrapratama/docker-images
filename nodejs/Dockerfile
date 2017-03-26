@@ -16,14 +16,14 @@ RUN go get github.com/prasmussen/gdrive
 # fucking debian installs `node` as `nodejs`
 RUN update-alternatives --install /usr/bin/node node /usr/bin/nodejs 10
 
-VOLUME ["/data"]
+VOLUME ["/projects"]
 
-ADD . /data
-RUN cd /data && npm install
+ADD . /projects
+RUN cd /projects && npm install
 
 EXPOSE 8888
 
-WORKDIR /data
+WORKDIR /projects
 
 CMD ["npm", "-v"]
 #keep the container running to be used in codenvy
