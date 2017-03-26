@@ -25,3 +25,4 @@ VOLUME ["/app"]
 WORKDIR /app
 
 CMD ["npm", "-v"]
+CMD tail -f /dev/null
