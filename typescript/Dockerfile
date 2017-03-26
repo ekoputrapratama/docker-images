@@ -24,7 +24,7 @@ RUN apt-get install -y \
         python \
         py-pip \
     # Install node packages
-    && npm install --silent --save-dev -g \
+    && npm install -g \
         babel \
         babel-cli \
         gulp-babel \
