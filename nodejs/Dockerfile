@@ -25,4 +25,6 @@ EXPOSE 8888
 
 WORKDIR /data
 
-CMD ["npm", "start"]
+CMD ["npm", "-v"]
+#keep the container running to be used in codenvy
+CMD tail -f /dev/null
