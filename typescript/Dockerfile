@@ -38,4 +38,5 @@ RUN apt-get install -y \
 VOLUME ["/projects"]
 WORKDIR /projects
 CMD ["npm", "-v"]
+#keep the container running to be used in codenvy
 CMD tail -f /dev/null
