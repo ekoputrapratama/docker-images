@@ -5,7 +5,21 @@ ENV DEBIAN_FRONTEND noninteractive
 
 RUN apt-get update
 RUN apt-get -qq update
-RUN apt-get install -y nodejs npm unzip zip golang git
+RUN apt-get install -y \
+        nodejs \
+        npm \
+        unzip \
+        zip \
+        golang \
+        git \
+        curl \
+        openssl \
+        # for node-sass module
+        make \
+        gcc \
+        g++ \
+        python \
+        py-pip 
 ENV GOPATH /usr/local/opt/go
 ENV PATH ${GOPATH}:${GOPATH}/bin:${PATH}
 RUN go get github.com/prasmussen/gdrive
@@ -14,17 +28,7 @@ RUN go get github.com/prasmussen/gdrive
 # fucking debian installs `node` as `nodejs`
 RUN update-alternatives --install /usr/bin/node node /usr/bin/nodejs 10
 
-RUN apt-get install -y \
-        curl \
-        openssl \
-        # for node-sass module
-        make \
-        gcc \
-        g++ \
-        python \
-        py-pip \
-    # Install node packages
-    && npm install -g \
+RUN npm install -g \
         babel \
         babel-cli \
         gulp-babel \
