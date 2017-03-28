@@ -43,7 +43,6 @@ RUN sudo mkdir -p /opt/noVNC/utils/websockify && \
     [exec] (Chrome)     {/opt/google/chrome/google-chrome} \n \
     [end]" | sudo tee -a /etc/X11/blackbox/blackbox-menu
 
-RUN sudo touch /opt/noVNC/index.html
 ADD index.html  /opt/noVNC/
 ADD supervisord.conf /opt/
 EXPOSE 4444 6080 32745
