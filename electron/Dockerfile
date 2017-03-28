@@ -1,6 +1,7 @@
 FROM nerdiex/node
 MAINTAINER Muhammad Sayuti "muhammad.sayuti94@gmail.com"
 
+EXPOSE 8080 8000
 RUN apt-get update && apt-get install -y sudo procps wget mc curl && rm -rf /var/lib/apt/lists/ && \
     echo "%sudo ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers && \
     useradd -u 1000 -G users,sudo -d /home/user --shell /bin/bash -m user && \
