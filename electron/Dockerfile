@@ -8,11 +8,11 @@ RUN sudo apt-get -qq update
 RUN sudo apt-get install -y nodejs npm unzip zip golang git curl wget
 ENV GOPATH /usr/local/opt/go
 ENV PATH ${GOPATH}:${GOPATH}/bin:${PATH}
-RUN go get github.com/prasmussen/gdrive
+RUN sudo go get github.com/prasmussen/gdrive
 # TODO could uninstall some build dependencies
 
 # fucking debian installs `node` as `nodejs`
-RUN update-alternatives --install /usr/bin/node node /usr/bin/nodejs 10
+RUN sudo update-alternatives --install /usr/bin/node node /usr/bin/nodejs 10
 
 RUN sudo npm install -g electron typescript tslint gulp gulp-if bower
 
