@@ -42,9 +42,10 @@ RUN sudo mkdir -p /opt/noVNC/utils/websockify && \
     echo "[begin] (Blackbox) \n [exec] (Terminal)     {urxvt -fn "xft:Terminus:size=14"} \n \
     [exec] (Chrome)     {/opt/google/chrome/google-chrome} \n \
     [end]" | sudo tee -a /etc/X11/blackbox/blackbox-menu
+    
 RUN cd /opt/noVNC/ && sudo touch index.html
 #ADD index.html  /opt/noVNC/
-ADD supervisord.conf /opt/
+RUN cd ../ && sudo touch supervisord.conf && sudo chown $(whoami) supervisored.conf
 EXPOSE 4444 6080 32745
 ENV DISPLAY :20.0
 
