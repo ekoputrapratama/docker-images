@@ -3,10 +3,9 @@ MAINTAINER Muhammad Sayuti "muhammad.sayuti94@gmail.com"
 
 ENV DEBIAN_FRONTEND noninteractive
 
-RUN apt-get update
-RUN apt-get -qq update
-RUN apt-get install -y nodejs npm unzip zip golang git curl wget
-RUN npm install -g bower
+RUN sudo apt-get update
+RUN sudo apt-get -qq update
+RUN sudo apt-get install -y nodejs npm unzip zip golang git curl wget
 ENV GOPATH /usr/local/opt/go
 ENV PATH ${GOPATH}:${GOPATH}/bin:${PATH}
 RUN go get github.com/prasmussen/gdrive
@@ -15,7 +14,7 @@ RUN go get github.com/prasmussen/gdrive
 # fucking debian installs `node` as `nodejs`
 RUN update-alternatives --install /usr/bin/node node /usr/bin/nodejs 10
 
-RUN sudo npm install -g electron typescript tslint gulp gulp-if  
+RUN sudo npm install -g electron typescript tslint gulp gulp-if bower
 
 WORKDIR /projects
 
