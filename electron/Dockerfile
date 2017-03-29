@@ -6,9 +6,7 @@ ENV DEBIAN_FRONTEND noninteractive
 RUN sudo apt-get update
 RUN sudo apt-get -qq update
 RUN sudo apt-get install -y nodejs npm unzip zip golang git curl wget
-ENV GOPATH /usr/local/opt/go
-ENV PATH ${GOPATH}:${GOPATH}/bin:${PATH}
-RUN sudo go get github.com/prasmussen/gdrive
+
 # TODO could uninstall some build dependencies
 
 # fucking debian installs `node` as `nodejs`
