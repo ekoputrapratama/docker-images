@@ -3,8 +3,8 @@ MAINTAINER Muhammad Sayuti "muhammad.sayuti94@gmail.com"
 
 ENV DEBIAN_FRONTEND noninteractive
 ENV NVM_DIR /usr/local/nvm
-ENV NODE_VERSION 8.1.4
-ENV YARN_VERSION 1.1.0
+ENV NODE_VERSION 8.9.1
+ENV YARN_VERSION 1.3.2
 ENV YARN_CACHE_FOLDER=/root/.yarn-cache
 
 RUN sudo apt-get update
