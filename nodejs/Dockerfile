@@ -10,7 +10,7 @@ ENV NODE_VERSION 8.9.1
 RUN apt-get update
 RUN apt-get -qq update
 RUN apt-get install -y unzip zip golang git curl wget sudo
-RUN npm install -g bower
+
 ENV GOPATH /usr/local/opt/go
 ENV PATH ${GOPATH}:${GOPATH}/bin:${PATH}
 RUN go get github.com/prasmussen/gdrive
@@ -25,6 +25,7 @@ ENV PATH      $NVM_DIR/versions/node/v$NODE_VERSION/bin:$PATH
 # confirm installation
 RUN node -v
 RUN npm -v
+RUN npm install -g bower
 
 VOLUME ["/projects"]
 
