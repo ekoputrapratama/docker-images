@@ -53,3 +53,7 @@ ENV PATH      $NVM_DIR/versions/node/v$NODE_VERSION/bin:$PATH
 RUN node -v
 RUN npm -v
 
+# install global node modules
+RUN yarn global add electron typescript tslint ts-node gulp bower
+
+WORKDIR /projects
