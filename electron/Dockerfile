@@ -1,27 +1,55 @@
-FROM eclipse/selenium
+FROM ubuntu:16.04
 MAINTAINER Muhammad Sayuti "muhammad.sayuti94@gmail.com"
 
 ENV DEBIAN_FRONTEND noninteractive
+ENV NVM_DIR /usr/local/nvm
+ENV NODE_VERSION 8.1.4
+ENV YARN_VERSION 1.1.0
+ENV YARN_CACHE_FOLDER=/root/.yarn-cache
 
 RUN sudo apt-get update
 RUN sudo apt-get -qq update
-RUN sudo apt-get install -y nodejs npm unzip zip golang git curl wget
+RUN sudo apt-get install -y unzip zip golang \
+    git \
+    curl \
+    wget \
+    build-essential \
+    libssl-dev \
+    apt-transport-https \
+    ca-certificates \
+    libgtk2.0-dev \
+    libxtst-dev \
+    libxss1 \
+    libgconf2-dev \
+    libnss3-dev \
+    libasound2-dev \
+    xvfb \
+    xfonts-75dpi \
+    xfonts-base \
+    && apt-get install -y gnupg \
+    hicolor-icon-theme \
+    libgl1-mesa-dri \
+    libgl1-mesa-glx \
+    libpango1.0-0 \
+    libpulse0 \
+    libv4l-0 \
+    fonts-symbola --no-install-recommends
 
-# TODO could uninstall some build dependencies
+# install yarn
+RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
+RUN echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list
+RUN apt-get update && apt-get install --no-install-recommends -y yarn \
+  && ln -s /opt/yarn/bin/yarn /usr/local/bin/yarn \
+  && ln -s /opt/yarn/bin/yarn /usr/local/bin/yarnpkg
 
-# fucking debian installs `node` as `nodejs`
-RUN sudo update-alternatives --install /usr/bin/node node /usr/bin/nodejs 10
+# Install nvm with node and npm
+RUN curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.1/install.sh | bash
+# Install NODE
+RUN /bin/bash -c "source $NVM_DIR/nvm.sh && nvm install $NODE_VERSION && nvm use --delete-prefix $NODE_VERSION"
 
-RUN sudo npm install -g electron typescript tslint gulp gulp-if bower
+ENV NODE_PATH $NVM_DIR/versions/node/v$NODE_VERSION/lib/node_modules
+ENV PATH      $NVM_DIR/versions/node/v$NODE_VERSION/bin:$PATH
+# confirm installation
+RUN node -v
+RUN npm -v
 
-WORKDIR /projects
-
-CMD if [ ! -z ${WEBDRIVER_VERSION+x} ]; then \
-        wget -O /home/user/chromedriver_linux64.zip -q http://chromedriver.storage.googleapis.com/${WEBDRIVER_VERSION}/chromedriver_linux64.zip; \
-        unzip -o -q /home/user/chromedriver_linux64.zip  -d /home/user; \
-        rm /home/user/chromedriver_linux64.zip; \
-    fi && \
-    /usr/bin/supervisord -c /opt/supervisord.conf & \
-    cd /home/user && sleep 3 && \
-    /home/user/chromedriver --port=4444 --whitelisted-ips='' & \
-    sleep 365d
