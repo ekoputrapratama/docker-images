@@ -11,7 +11,11 @@ ENV YARN_CACHE_FOLDER=/root/.yarn-cache
 
 RUN apt-get update
 RUN apt-get -qq update
-RUN apt-get install -y unzip zip golang git curl wget sudo
+RUN apt-get install -y unzip zip golang git curl wget sudo \
+  build-essential \
+  libssl-dev \
+  apt-transport-https \
+  ca-certificates
 
 ENV GOPATH /usr/local/opt/go
 ENV PATH ${GOPATH}:${GOPATH}/bin:${PATH}
