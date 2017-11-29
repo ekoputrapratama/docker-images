@@ -38,14 +38,9 @@ ENV PATH      $NVM_DIR/versions/node/v$NODE_VERSION/bin:$PATH
 # confirm installation
 RUN node -v
 RUN npm -v
-RUN npm install -g bower
+RUN npm install -g bower cross-env
 
 VOLUME ["/projects"]
-
-ADD . /projects
-RUN cd /projects && npm install
-
-EXPOSE 8888
 
 WORKDIR /projects
 
