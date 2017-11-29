@@ -2,10 +2,6 @@ FROM nerdiex/node:latest
 MAINTAINER Muhammad Sayuti "muhammad.sayuti94@gmail.com"
 
 RUN apt-get install -y \
-  build-essential \
-  libssl-dev \
-  apt-transport-https \
-  ca-certificates \
   libgtk2.0-dev \
   libxtst-dev \
   libxss1 \
@@ -15,7 +11,7 @@ RUN apt-get install -y \
   xvfb \
   xfonts-75dpi \
   xfonts-base \
-  && apt-get install -y gnupg \
+  gnupg \
   hicolor-icon-theme \
   libgl1-mesa-dri \
   libgl1-mesa-glx \
