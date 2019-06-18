@@ -1,6 +1,6 @@
 # Node.js app Docker file
 
-FROM ubuntu:16.04
+FROM nerdiex/base:latest
 MAINTAINER Muhammad Sayuti "muhammad.sayuti94@gmail.com"
 
 ENV DEBIAN_FRONTEND noninteractive
@@ -11,14 +11,7 @@ ENV YARN_CACHE_FOLDER=/root/.yarn-cache
 
 RUN apt-get update
 RUN apt-get -qq update
-RUN apt-get install -y unzip zip golang git curl wget sudo \
-  build-essential \
-  libssl-dev \
-  apt-transport-https \
-  ca-certificates
 
-ENV GOPATH /usr/local/opt/go
-ENV PATH ${GOPATH}:${GOPATH}/bin:${PATH}
 RUN go get github.com/prasmussen/gdrive
 
 # install yarn
