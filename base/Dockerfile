@@ -6,7 +6,7 @@ ENV DEBIAN_FRONTEND noninteractive
 RUN apt-get update
 RUN apt-get -qq update
 
-RUN apt-get install -y unzip zip golang git curl wget nano meson \
+RUN apt-get install -y unzip zip golang git curl wget nano \
   devscripts equivs \
   build-essential \
   libssl-dev \
