@@ -17,5 +17,6 @@ RUN apt-get install -y --no-install-recommends unzip zip meson git curl wget sud
   && apt-get install -y --no-install-recommends cmake clang
 
 VOLUME ["/var/cache/apt/archives"]
+VOLUME ["/projects"]
 
 WORKDIR /projects
