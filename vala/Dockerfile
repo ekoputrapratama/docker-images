@@ -8,6 +8,7 @@ ENV DEBIAN_FRONTEND noninteractive
 RUN apt-get update
 RUN apt-get -qq update
 RUN apt-get install -y --no-install-recommends unzip zip meson git curl wget sudo \
+  && apt-get install -y valac \
   && apt-get install -y --no-install-recommends build-essential \
   && apt-get install -y --no-install-recommends libssl-dev \
   && apt-get install -y --no-install-recommends apt-transport-https \
