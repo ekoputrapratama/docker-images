@@ -1,0 +1,17 @@
+FROM archlinux/base:latest
+
+RUN pacman-key --init && \
+  pacman -Sy --noconfirm archlinux-keyring && \
+  pacman -Syu --noconfirm base-devel git boost aurpublish && \
+  pacman -Syu --noconfirm equivs debootstrap debhelper debianutils devscripts && \
+  pacman-db-upgrade && \
+  update-ca-trust && \
+  pacman -Scc --noconfirm
+
+ADD enable-cache /usr/bin/
+
+RUN useradd -m arch \
+	&& echo "arch ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
+
+USER arch
+WORKDIR /home/arch

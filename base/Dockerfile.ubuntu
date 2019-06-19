@@ -20,7 +20,7 @@ ENV PATH ${GOPATH}:${GOPATH}/bin:${PATH}
 # in docker by default all apt cache will be removed on post install
 # by executing this command user can mount their host folder to 
 # /tmp/apt to save apt cache for later use
-ADD base/enable-apt-cache /usr/bin/
+ADD enable-cache /usr/bin/
 
 VOLUME ["/tmp/apt"]
 VOLUME ["/projects"]
