@@ -33,9 +33,13 @@ fi
 
 case "${DISTRO}" in 
   "Manjaro Linux"|"archlinux"|"Arch Linux"|"arch"|"Arch"|"archarm")
-    echo "Distro detected as archlinux or archlinux based distro, configuring pacman..."
+    echo "Distro detected as archlinux or archlinux based distro, configuring package manager..."
     # change pacman cache directory
     sed -r -i 's/CacheDir\ =.*$/CacheDir\ =\ \/tmp\/pacman/g' /etc/pacman.conf
+    # pacaur use XDG_CACHE_HOME
+    echo "export XDG_CACHE_HOME=/tmp" >> ~/.bashrc
+    source ~/.bashrc
+    
   ;;
   "Ubuntu"|"Debian")
     echo "Distro detected as debian or debian based distro, configuring apt..."
