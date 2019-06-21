@@ -7,7 +7,7 @@ RUN sudo apt-get update
 RUN sudo apt-get -qq update
 RUN sudo apt-get install -y --no-install-recommends valac meson ninja-build
 
-ENV PROJECTS_DIR /home/arch/projects/vala
+ENV PROJECTS_DIR /home/ubuntu/projects/vala
 RUN mkdir -p $PROJECTS_DIR && chmod -R 777 $PROJECTS_DIR
 
 VOLUME $PROJECTS_DIR
