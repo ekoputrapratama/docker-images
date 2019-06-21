@@ -41,30 +41,27 @@ fi
 case "${DISTRO}" in 
   "Manjaro Linux"|"archlinux"|"Arch Linux"|"arch"|"Arch"|"archarm")
     echo "Distro detected as archlinux or archlinux based distro, configuring package manager ..."
-    # change pacman cache directory
-    sed -r -i 's/#CacheDir\ =.*$/CacheDir\ =\ \/tmp\/pacman/g' /etc/pacman.conf
-    # pacaur use XDG_CACHE_HOME
-    echo "export XDG_CACHE_HOME=/tmp" >> ~/.bashrc
+    # comment pacman cache directory
+    sed -r -i 's/CacheDir\ =.*$/#CacheDir\ =\ \/tmp\/pacman/g' /etc/pacman.conf
+    # remove XDG_CACHE_HOME environment variable
+    sed -r -i 's/export\ XDG_CACHE_HOME=\/tmp/\ /g' ~/.bashrc
     source ~/.bashrc
   ;;
   "Ubuntu"|"Debian")
     echo "Distro detected as debian or debian based distro, configuring apt ..."
     # remove docker config which is running terminal command on post install
     # to remove all caches
-
-    if [ -f /etc/apt/apt.conf.d/docker-clean ]; then
-      echo "removing docker post install script"
-      rm /etc/apt/apt.conf.d/docker-clean
+    if [ ! -f /etc/apt/apt.conf.d/docker-clean ]; then
+      echo "restoring docker post install script"
+      echo -e "DPkg::Post-Invoke { \"rm -f /var/cache/apt/archives/*.deb /var/cache/apt/archives/partial/*.deb /var/cache/apt/*.bin || true\"; };\nAPT::Update::Post-Invoke { \"rm -f /var/cache/apt/archives/*.deb /var/cache/apt/archives/partial/*.deb /var/cache/apt/*.bin || true\"; };\nDir::Cache::pkgcache \"\";\nDir::Cache::srcpkgcache \"\";" >> /etc/apt/apt.conf.d/docker-clean
     fi
-
-    if [ ! -f /etc/apt/apt.conf.d/docker-apt-cache ]; then
+    
+    if [ -f /etc/apt/apt.conf.d/docker-apt-cache ]; then
       # change apt cache directory
-      echo "change apt cache directory to \"/tmp/apt\""
-      echo "Dir{Cache \"/tmp/apt/\";};" >> /etc/apt/apt.conf.d/docker-apt-cache
-      echo "APT{NeverAutoRemove {\".deb$\";}};" >> /etc/apt/apt.conf.d/docker-apt-cache
+      echo "restoring apt cache directory to \"/var/cache/apt\""
+      rm /etc/apt/apt.conf.d/docker-apt-cache
     fi  
    ;;
   *)
     echo "distro is unknown, this probably because this script doesn't have this distro registered, considering updating the script."
 esac
-

@@ -22,11 +22,15 @@ RUN cd auracle-git && makepkg -si --noconfirm
 RUN git clone https://aur.archlinux.org/pacaur.git
 RUN cd pacaur && makepkg -si --noconfirm
 
+# clean pacaur and it's dependencies sources
+RUN rm -r pacaur && rm -r auracle-git
+
 # installing dependencies for building debian package
 RUN gpg --recv-keys 0x8C004C2F93481F6B
-RUN pacaur -Sy --noconfirm --noedit equivs debootstrap debhelper debianutils devscripts dpkg
+RUN pacaur -Sy --noconfirm --noedit --needed \
+    equivs debootstrap debhelper debianutils devscripts dpkg
 
-ADD enable-cache /usr/bin/
+ADD enable-cache disable-cache /usr/bin/
 
 VOLUME ["/tmp"]
 VOLUME ["/projects"]

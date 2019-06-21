@@ -12,17 +12,23 @@ RUN apt-get install -y unzip zip golang git curl wget nano \
   libssl-dev \
   apt-transport-https \
   ca-certificates \
-  cmake clang
+  cmake clang sudo
 
-ENV GOPATH /usr/local/opt/go
-ENV PATH ${GOPATH}:${GOPATH}/bin:${PATH}
+RUN useradd -m ubuntu \
+	&& echo "ubuntu ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
+	
+USER ubuntu
+
+RUN echo "export GOPATH=\"/home/ubuntu/.go\"" >> ~/.bashrc
+RUN echo "export GOBIN=\"$GOPATH/bin\"" >> ~/.bashrc
+RUN echo "export PATH=\"$GOBIN:$PATH\"" >> ~/.bashrc
 
 # in docker by default all apt cache will be removed on post install
 # by executing this command user can mount their host folder to 
 # /tmp/apt to save apt cache for later use
-ADD enable-cache /usr/bin/
+ADD enable-cache disable-cache /usr/bin/
 
-VOLUME ["/tmp/apt"]
+VOLUME ["/tmp"]
 VOLUME ["/projects"]
 
-WORKDIR /projects
+WORKDIR /home/ubuntu
