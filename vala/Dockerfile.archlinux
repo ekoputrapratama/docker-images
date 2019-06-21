@@ -1,0 +1,9 @@
+FROM nerdiex/base:archlinux
+
+RUN sudo pacman -Sy --noconfirm vala
+
+ENV PROJECTS_DIR /home/arch/projects/vala
+RUN mkdir -p $PROJECTS_DIR && chmod -R 777 $PROJECTS_DIR
+
+VOLUME $PROJECTS_DIR
+WORKDIR $PROJECTS_DIR
