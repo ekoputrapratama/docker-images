@@ -2,6 +2,7 @@ FROM archlinux:base
 
 ENV EDITOR nano
 
+
 RUN pacman-key --init && \
   pacman -Sy --noconfirm archlinux-keyring && \
   pacman -Syu --noconfirm base-devel git boost aurpublish sudo po4a python nano go && \  
@@ -29,6 +30,10 @@ RUN rm -r pacaur && rm -r auracle-git
 RUN gpg --recv-keys 0x8C004C2F93481F6B
 RUN pacaur -Sy --noconfirm --noedit --needed \
     equivs debootstrap debhelper debianutils devscripts dpkg
+
+RUN echo "export GOPATH=\"/home/arch/.go\"" >> ~/.bashrc
+RUN echo "export GOBIN=\"$GOPATH/bin\"" >> ~/.bashrc
+RUN echo "export PATH=\"$GOBIN:$PATH\"" >> ~/.bashrc
 
 ADD enable-cache disable-cache /usr/bin/
 
