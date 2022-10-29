@@ -1,5 +1,5 @@
 FROM ubuntu:19.04
-MAINTAINER Muhammad Sayuti "muhammad.sayuti94@gmail.com"
+LABEL MAINTAINER="muhammad.sayuti94@gmail.com"
 
 ENV DEBIAN_FRONTEND noninteractive
 
