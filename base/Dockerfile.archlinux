@@ -1,10 +1,10 @@
-FROM archlinux/base:latest
+FROM archlinux:base
 
 ENV EDITOR nano
 
 RUN pacman-key --init && \
   pacman -Sy --noconfirm archlinux-keyring && \
-  pacman -Syu --noconfirm base-devel git boost aurpublish sudo po4a python nano && \  
+  pacman -Syu --noconfirm base-devel git boost aurpublish sudo po4a python nano go && \  
   pacman-db-upgrade && \
   update-ca-trust && \
   pacman -Scc --noconfirm
